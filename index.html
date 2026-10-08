@@ -2,9 +2,9 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Clean Wash | POS Kasir & Manajemen Laundry</title>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clean Wash | POS Kasir & Multi-Outlet Laundry Hub</title>
+  
   <!-- Favicon Laundry (Washing Machine SVG) -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230284c7'%3E%3Crect x='3' y='2' width='18' height='20' rx='3' fill='%230284c7'/%3E%3Ccircle cx='12' cy='13' r='5.5' fill='%23ffffff'/%3E%3Ccircle cx='12' cy='13' r='4' fill='%2338bdf8'/%3E%3Ccircle cx='7' cy='5.5' r='1' fill='%23ffffff'/%3E%3Ccircle cx='10' cy='5.5' r='1' fill='%23ffffff'/%3E%3Cpath d='M14 5.5h4' stroke='%23ffffff' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E">
   
@@ -13,164 +13,264 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Font: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            brandBlue: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              200: '#bae6fd',
+              500: '#0ea5e9',
+              600: '#0284c7',
+              700: '#0369a1',
+            },
+            navyTitle: '#0f172a',
+          },
+          animation: {
+            'float-subtle': 'float 3.2s ease-in-out infinite',
+            'pulse-soft': 'pulseSoft 2s ease-in-out infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-5px)' },
+            },
+            pulseSoft: {
+              '0%, 100%': { opacity: '1' },
+              '50%': { opacity: '0.6' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
   <style>
-    * { 
-      margin: 0; 
-      padding: 0; 
-      box-sizing: border-box; 
-      -webkit-tap-highlight-color: transparent;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    html, body { 
-      background: radial-gradient(circle at 50% 30%, #0369a1 0%, #0c4a6e 55%, #082f49 100%);
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #ffffff;
       overflow: hidden;
-      width: 100%;
-      height: 100%;
-      height: -webkit-fill-available;
-      height: 100dvh;
-      position: fixed; /* Mencegah layar wrapper ikut tergulir di mobile */
-      inset: 0;
+      height: 100vh;
+      width: 100vw;
     }
 
-    /* Container Layar Splash */
-    .splash {
+    /* Latar belakang cerah dengan aura biru lembut */
+    .cleanwash-splash-bg {
+      background: 
+        radial-gradient(circle at 50% 20%, rgba(224, 242, 254, 0.6) 0%, rgba(240, 249, 255, 0.3) 40%, #ffffff 75%),
+        #ffffff;
+    }
+
+    /* Splash Screen Overlay Penuh */
+    #splash {
       position: fixed;
       inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
       z-index: 9999;
-      transition: opacity 0.5s ease, visibility 0.5s;
-    }
-
-    .brand-icon-wrapper {
-      position: relative;
-      width: 84px;
-      height: 84px;
-      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      border-radius: 22px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
-      margin-bottom: 1.25rem;
-    }
-
-    .brand-icon-wrapper svg {
-      width: 44px;
-      height: 44px;
-      fill: none;
-      stroke: #ffffff;
-      stroke-width: 1.8;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    .splash-title {
-      color: #ffffff;
-      font-size: 1.8rem;
-      font-weight: 800;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-      text-align: center;
-    }
-
-    .splash-title span { color: #38bdf8; }
-
-    .splash-sub {
-      color: #bae6fd;
-      font-size: 0.85rem;
-      font-weight: 600;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      margin-top: 0.3rem;
-    }
-
-    .loader-container {
-      margin-top: 1.75rem;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.6rem;
+      justify-content: center;
+      transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.6s;
     }
 
-    .spinner {
-      width: 36px;
-      height: 36px;
-      border: 3px solid rgba(56, 189, 248, 0.2);
-      border-top-color: #38bdf8;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
+    /* Progress Bar Shimmer Tema Biru Khas Clean Wash */
+    .progress-bar-fill {
+      transition: width 0.35s ease;
+      background: linear-gradient(90deg, #0284c7 0%, #0ea5e9 50%, #38bdf8 100%);
+      background-size: 200% 100%;
+      animation: shimmer 1.8s infinite linear;
     }
 
-    .loading-status {
-      font-size: 0.75rem;
-      color: #e0f2fe;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      font-weight: 600;
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
     }
 
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* IFRAME FULLSCREEN PRESISI UNTUK MOBILE */
+    /* Iframe Sasaran */
     #appFrame {
       display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      height: 100dvh;
+      width: 100vw;
+      height: 100vh;
       border: none;
-      outline: none;
-      z-index: 10;
+      background-color: #ffffff;
     }
   </style>
 </head>
-<body>
+<body class="cleanwash-splash-bg antialiased selection:bg-brandBlue-600 selection:text-white">
 
-  <!-- Layar Splash Screen -->
-  <div class="splash" id="splash">
-    <div class="brand-icon-wrapper">
-      <svg viewBox="0 0 24 24">
-        <rect x="4" y="2" width="16" height="20" rx="3" />
-        <circle cx="12" cy="13" r="5" />
-        <path d="M12 11a2 2 0 0 1 2 2" stroke-width="1.8" />
-        <circle cx="8" cy="6" r="1" fill="#ffffff" stroke="none" />
-        <line x1="12" y1="6" x2="16" y2="6" stroke-width="1.5" />
-      </svg>
+  <!-- ========================================================
+       SPLASH SCREEN (Pemuatan Sebelum Web Iframe Terbuka)
+  ======================================================== -->
+  <div id="splash" class="cleanwash-splash-bg px-4 sm:px-6">
+    
+    <div class="max-w-xl w-full flex flex-col items-center text-center animate-float-subtle">
+      
+      <!-- Logo Badge Khas Clean Wash (Ikon Bulat Biru + Label POS) -->
+      <div class="flex items-center gap-3 mb-6 bg-white/90 backdrop-blur-md px-5 py-2.5 rounded-2xl border border-slate-200/90 shadow-sm">
+        <div class="w-11 h-11 rounded-full bg-brandBlue-600 flex items-center justify-center text-white shadow-md shadow-brandBlue-600/30">
+          <!-- Ikon Mesin Basuh / Bakul Dobi -->
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+          </svg>
+        </div>
+        <div class="text-left">
+          <div class="flex items-center gap-1.5 leading-none">
+            <span class="text-navyTitle font-extrabold text-xl tracking-tight">Clean Wash</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider bg-brandBlue-50 text-brandBlue-600 px-1.5 py-0.5 rounded border border-brandBlue-200">
+              POS
+            </span>
+          </div>
+          <p class="text-[10px] font-bold tracking-wider text-brandBlue-600 uppercase mt-1">
+            MULTI-OUTLET LAUNDRY HUB
+          </p>
+        </div>
+      </div>
+
+      <!-- Pill Badge Header (Mengikut Tangkapan Skrin) -->
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brandBlue-50 border border-brandBlue-200 text-brandBlue-700 text-xs font-semibold mb-4 tracking-wide shadow-2xs">
+        <span class="w-2 h-2 rounded-full bg-brandBlue-600 animate-pulse-soft"></span>
+        <span>Solusi Terdepan Pengelolaan Multi-Cabang Laundry di Indonesia</span>
+      </div>
+
+      <!-- Tajuk Utama Bergradien Biru-Ungu Khas Bersih -->
+      <h1 class="text-3xl sm:text-4xl md:text-[2.5rem] font-extrabold text-navyTitle tracking-tight leading-[1.25] mb-3">
+        Kelola Seluruh Cabang Usaha Laundry <br class="hidden sm:inline">
+        <span class="bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 bg-clip-text text-transparent">
+          Lebih Cepat, Rapi, dan Otomatis
+        </span>
+      </h1>
+
+      <!-- Penerangan Subtitle -->
+      <p class="text-slate-600 text-xs sm:text-sm font-normal max-w-lg leading-relaxed mb-7">
+        Mempersiapkan sistem kasir kilat, penjejakan status cucian multi-outlet, dan penyegerakan nota pintar.
+      </p>
+
+      <!-- Bahagian Penunjuk Pemuatan & Bar Kemajuan -->
+      <div class="w-full max-w-xs flex flex-col items-center gap-3">
+        
+        <!-- Track Bar Kemajuan -->
+        <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden border border-slate-200/90 shadow-inner">
+          <div id="loadingProgress" class="progress-bar-fill h-full w-1/4 rounded-full"></div>
+        </div>
+
+        <!-- Pemutar & Status Teks -->
+        <div class="flex items-center gap-2.5 mt-1">
+          <div class="w-4 h-4 border-2 border-brandBlue-200 border-t-brandBlue-600 rounded-full animate-spin"></div>
+          <span id="loadingText" class="text-xs font-semibold text-slate-500 tracking-wide uppercase">
+            Menyambungkan Hub Laundry...
+          </span>
+        </div>
+
+      </div>
+
     </div>
-    <h1 class="splash-title">Clean <span>Wash</span></h1>
-    <p class="splash-sub">Owner & POS Kasir Management</p>
-    <div class="loader-container">
-      <div class="spinner"></div>
-      <span class="loading-status">Memuat Portal...</span>
+
+    <!-- Tiga Poin Ciri Utama di Bahagian Bawah (Khas Reka Bentuk Asal) -->
+    <div class="absolute bottom-6 flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs text-slate-500 font-medium">
+      <div class="flex items-center gap-1.5">
+        <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <span>Tanpa Biaya Pemasangan</span>
+      </div>
+      <div class="flex items-center gap-1.5">
+        <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <span>Kompatibel Printer Bluetooth</span>
+      </div>
+      <div class="flex items-center gap-1.5">
+        <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <span>Aman Berbasis Cloud</span>
+      </div>
     </div>
+
   </div>
 
-  <!-- Google Apps Script Iframe -->
+  <!-- ========================================================
+       TARGET WEB IFRAME
+       (Boleh digantikan dengan URL Web App anda jika menggunakan GAS)
+  ======================================================== -->
   <iframe
     id="appFrame"
     src="https://script.google.com/macros/s/AKfycbwuQz3BMVbKuf5Z3NJtXH8AWMc8b9MLnQRhT97dhLNowA3y9C7UwVRhu2J1lMqzGlZ9OA/exec"
-    allow="geolocation; camera"
+    allow="clipboard-read; clipboard-write"
     allowfullscreen
-    onload="frameLoaded()">
+    onload="handleFrameReady()">
   </iframe>
 
+  <!-- ========================================================
+       SKRIP KAWALAN PEMUATAN
+  ======================================================== -->
   <script>
-    function frameLoaded() {
-      const splash = document.getElementById("splash");
-      const appFrame = document.getElementById("appFrame");
-      splash.style.opacity = "0";
+    let isLoaded = false;
+    const splash = document.getElementById("splash");
+    const appFrame = document.getElementById("appFrame");
+    const progressBar = document.getElementById("loadingProgress");
+    const loadingText = document.getElementById("loadingText");
+
+    // Simulasi kemajuan memuatkan semasa menunggu respons iframe
+    let progress = 25;
+    const progressInterval = setInterval(() => {
+      if (progress < 85) {
+        progress += Math.floor(Math.random() * 12) + 5;
+        if (progress > 85) progress = 85;
+        progressBar.style.width = progress + "%";
+
+        if (progress > 45 && progress < 70) {
+          loadingText.innerText = "Memuatkan Data Outlet & Kasir...";
+        } else if (progress >= 70) {
+          loadingText.innerText = "Menyediakan Papan Pemuka Laundry...";
+        }
+      }
+    }, 420);
+
+    // Dipanggil automatik apabila Iframe selesai dimuatkan
+    function handleFrameReady() {
+      if (isLoaded) return;
+      isLoaded = true;
+      clearInterval(progressInterval);
+
+      // Penuhkan bar kemajuan
+      progressBar.style.width = "100%";
+      loadingText.innerText = "Sistem Dobi Sedia Digunakan!";
+
+      // Animasi peralihan lesap keluar (Fade-Out)
       setTimeout(() => {
-        splash.style.display = "none";
+        splash.style.opacity = "0";
+        splash.style.visibility = "hidden";
         appFrame.style.display = "block";
       }, 500);
     }
+
+    // Had masa keselamatan (Fallback): Buka automatik dalam 8 saat jika talian perlahan
+    setTimeout(() => {
+      if (!isLoaded) {
+        handleFrameReady();
+      }
+    }, 8000);
   </script>
+
 </body>
 </html>
